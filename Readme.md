@@ -10,12 +10,9 @@ This tool is developed for educational and developmental purposes. It's crucial 
 
 *Example image showing detected vehicles and their tracking.*
 
-![Image](image0.jpg)
-
-### After :rocket: :car: :dash:
+![Image](image.jpg)
 
 
-![After](after.png)
 
 ## How to Use
 
@@ -33,14 +30,29 @@ This tool is developed for educational and developmental purposes. It's crucial 
     python main.py
     ```
 
-## How it Works
+## Detailed System Workflow
 
-The script processes video frames to detect and track vehicles using YOLOv8. It then counts these vehicles as they cross a predefined line in the video, effectively estimating the flow of traffic.
+### Initialization and Configuration
+- **Model Initialization**: Utilizes the YOLOv8s model for object detection, loaded from a pretrained model file `yolov8s.pt`.
+- **Video Capture**: Captures video feed from a file `vid2.mp4`.
+- **Object Classes**: Reads the classes of detectable objects like motorcycles, cars, etc., from `coco.txt`.
 
-- **Initialization**: Load the YOLOv8 model and start capturing video from a file.
-- **Detection**: The model predicts vehicles in each frame and outputs their bounding boxes.
-- **Tracking**: Custom tracking logic updates the trajectory of each detected vehicle.
-- **Counting**: Vehicles crossing a predefined line are counted and the total is displayed on the output video.
+### Tracking Mechanism
+- **Tracking Logic**: Employs a custom tracking system using the `Tracker` class to follow detected objects across frames, managing their unique IDs.
+- **Updating Records**: The tracker calculates the Euclidean distance between new and existing center points of objects, reassigning IDs based on proximity within a threshold.
+
+### Detection and Counting
+- **Frame Processing**: Each video frame is processed in sequence, resized for consistency.
+- **Object Detection**: YOLOv8 predicts and identifies objects within each frame, annotating them with bounding boxes.
+- **Object Filtering and Counting**: Filters specific vehicle types and counts motorcycles as they cross a predefined line, displaying the count on-screen.
+
+### Interaction and UI
+- **Color Picker**: An RGB color picker activates upon mouse movement over the video, displaying RGB values at the cursor location.
+- **Display Updates**: The interface continuously updates with the video feed, showing detected vehicles and the motorcycle count.
+
+### User Interface
+- **Video Display**: The "RGB" window shows the live video feed with overlays like bounding boxes and counts.
+- **Control**: Allows step-by-step video progression or pausing through key presses, useful for detailed analysis.
 
 ## Customizations
 
@@ -55,7 +67,7 @@ python main.py --video_path=new_video.mp4
 - **Python 3.x**
 - **OpenCV library**
 - **Ultralytics**
-- **YOLO library
+- **YOLO library**
 
 ## Troubleshooting
 No detections in the video
